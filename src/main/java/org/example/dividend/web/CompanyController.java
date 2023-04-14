@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class CompanyController {
+
+    @GetMapping("/company/autocomplete")
+    public ResponseEntity<?> autocomplete(){
+        return null;
+    }
+
     @GetMapping("/company")
     public ResponseEntity<?> searchCompany(){
         return null;
