@@ -39,6 +39,14 @@ public class MemberService implements UserDetailsService {
 
     // 로그인 시 검증
     public MemberEntity authenticate(Auth.SignIn member) {
-        return null;
+        // 패스워드 검증
+        MemberEntity user = this.memberRepository.findByUsername(member.getUsername())
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 아이디입니다."));
+
+        if(!this.passwordEncoder.matches(member.getPassword(), user.getPassword())){
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        }
+        // 토큰 생성해서 반환
+        return user;
     }
 }
