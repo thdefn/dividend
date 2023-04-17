@@ -2,10 +2,15 @@ package org.example.dividend.web;
 
 import lombok.AllArgsConstructor;
 import org.example.dividend.model.Company;
+import org.example.dividend.persist.entity.CompanyEntity;
 import org.example.dividend.service.CompanyService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 실제 서비스 구현을 하다보면 몇십개 이상의 api를 뚫어줘야 하는 경우 있음
@@ -24,8 +29,9 @@ public class CompanyController {
     }
 
     @GetMapping("/company")
-    public ResponseEntity<?> searchCompany(){
-        return null;
+    public ResponseEntity<?> searchCompany(final Pageable pageable){
+        Page<CompanyEntity> companyEntities = this.companyService.getAllCompany(pageable);
+        return ResponseEntity.ok(companyEntities);
     }
 
     @PostMapping("/company")

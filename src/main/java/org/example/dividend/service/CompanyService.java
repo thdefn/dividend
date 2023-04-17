@@ -8,7 +8,10 @@ import org.example.dividend.persist.DividendRepository;
 import org.example.dividend.persist.entity.CompanyEntity;
 import org.example.dividend.persist.entity.DividendEntity;
 import org.example.dividend.scraper.Scraper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
@@ -52,6 +55,10 @@ public class CompanyService {
 
         this.dividendRepository.saveAll(dividendEntities);
         return company;
+    }
+
+    public Page<CompanyEntity> getAllCompany(Pageable pageable){
+        return this.companyRepository.findAll(pageable); // fe에서 한번에 보여줄 수 있는 데이터의 개수는 한계가 있다
     }
 }
 
