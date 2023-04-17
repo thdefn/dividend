@@ -40,10 +40,7 @@ public class ScraperScheduler {
         for (var company : companyEntities) {
             log.info("scraping for " + company.getName()); // 로그를 잘 남기는 것도 중요한 스킬이 될 수 있다
             ScrapedResult scrapedResult = this.yahooFinanceScraper.scrap(
-                    Company.builder()
-                            .name(company.getName())
-                            .ticker(company.getTicker())
-                            .build());
+                    new Company(company.getTicker(), company.getName()));
 
             // 스크래핑한 배당금 정보 중 데이베이스에 없는 값은 저장
             scrapedResult.getDividends().stream()

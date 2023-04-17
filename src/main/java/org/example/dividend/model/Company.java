@@ -1,7 +1,9 @@
 package org.example.dividend.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Company 모델 클래스를 따로 정의해준 이유
@@ -13,7 +15,8 @@ import lombok.Data;
  * 객체간 비교 연산이 중요한 로직에서는 equals 와 hashcode 메서드를 직접 정의하거나 자동 생성된 equals 가 내가 의도한대로 동작하는지 확인
  */
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Company {
     private String ticker;
     private String name;
