@@ -2,6 +2,7 @@ package org.example.dividend.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.dividend.exception.impl.NoCompanyException;
 import org.example.dividend.model.Company;
 import org.example.dividend.model.Dividend;
 import org.example.dividend.model.ScrapedResult;
@@ -33,7 +34,7 @@ public class FinanceService {
         log.info("searchCompany : "+companyName);
         // 래핑타입 옵셔널은 1. nullpointexception을 방지 2. 값이 없는 경우에 대한 처리가 더 깔끔함
         CompanyEntity companyEntity = this.companyRepository.findByName(companyName)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 회사명입니다.")); // 값이 없으면 익셉션 값이 있다면 옵셔널을 벗겨 알맹이를 뱉어냄
+                .orElseThrow(() -> new NoCompanyException()); // 값이 없으면 익셉션 값이 있다면 옵셔널을 벗겨 알맹이를 뱉어냄
 
         // 2. 조회된 회사의 아이디로 배당금을 조회
         List<DividendEntity> dividendEntities =

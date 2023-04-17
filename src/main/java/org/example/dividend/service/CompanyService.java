@@ -2,6 +2,7 @@ package org.example.dividend.service;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.Trie;
+import org.example.dividend.exception.impl.NoCompanyException;
 import org.example.dividend.model.Company;
 import org.example.dividend.model.ScrapedResult;
 import org.example.dividend.persist.CompanyRepository;
@@ -97,7 +98,7 @@ public class CompanyService {
 
     public String deleteCompany(String ticker) {
         var company = this.companyRepository.findByTicker(ticker)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 회사입니다."));
+                .orElseThrow(() -> new NoCompanyException());
 
         this.dividendRepository.deleteAllByCompanyId(company.getId());
         this.companyRepository.delete(company);

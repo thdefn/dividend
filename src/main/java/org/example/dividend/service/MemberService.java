@@ -2,6 +2,7 @@ package org.example.dividend.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.dividend.exception.impl.AlreadyExistUserException;
 import org.example.dividend.model.Auth;
 import org.example.dividend.persist.MemberRepository;
 import org.example.dividend.persist.entity.MemberEntity;
@@ -30,7 +31,7 @@ public class MemberService implements UserDetailsService {
     public MemberEntity register(Auth.SignUp member) {
         boolean exists = this.memberRepository.existsByUsername(member.getUsername());
         if (exists) {
-            throw new RuntimeException("이미 사용중인 아이디입니다.");
+            throw new AlreadyExistUserException();
         }
         member.setPassword(this.passwordEncoder.encode(member.getPassword()));
         var result = this.memberRepository.save(member.toEntity());
