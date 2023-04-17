@@ -31,6 +31,9 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+
+    implementation 'org.apache.commons:commons-collections4:4.4'
+
 }
 
 tasks.named('test') {
