@@ -4,11 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dividend.model.Company;
 import org.example.dividend.model.ScrapedResult;
+import org.example.dividend.model.constants.CacheKey;
 import org.example.dividend.persist.CompanyRepository;
 import org.example.dividend.persist.DividendRepository;
 import org.example.dividend.persist.entity.CompanyEntity;
 import org.example.dividend.persist.entity.DividendEntity;
 import org.example.dividend.scraper.Scraper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +34,7 @@ public class ScraperScheduler {
     private final Scraper yahooFinanceScraper;
 
     // 일정 주기마다 수행
+    @CacheEvict(value = CacheKey.KEY_FINANCE, allEntries = true) // value에 해당하는 부분이 key의 프리픽스 / 레디스의 finance에 해당하는 값들은 다 비운다
     @Scheduled(cron = "${scheduler.scrap.yahoo}")
     public void yahooFinanceScheduling() {
         log.info("scraping scheduler is started");

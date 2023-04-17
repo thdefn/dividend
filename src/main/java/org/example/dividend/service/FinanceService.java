@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.dividend.model.Company;
 import org.example.dividend.model.Dividend;
 import org.example.dividend.model.ScrapedResult;
+import org.example.dividend.model.constants.CacheKey;
 import org.example.dividend.persist.CompanyRepository;
 import org.example.dividend.persist.DividendRepository;
 import org.example.dividend.persist.entity.CompanyEntity;
@@ -26,7 +27,7 @@ public class FinanceService {
 
     // 1. 요청이 자주 들어오는가 ? 주식 정보 검색은 특정 회사에 대한 요청이 몰린다 -> 특정 회사의 배당금 데이터를 캐싱해두면 한번 요청이 온 데이터는 이후 데이터베이스에서 서칭하지 않아도됨
     // 2. 자주 변경되는 데이터인가 ? 데이터 변경이 잦은 데이터라면 캐시에 있는 데이터도 업데이트하거나 삭제해줘야함 -> but 배당금 데이터는 과거 금액 정보가 바뀌지 않음, 배당 정보 추가되었을 때 업데이트만 하면 됨
-    @Cacheable(key = "#companyName", value = "finance") // 메소드 파라미터 / 레디스 서버의 key value와는 의미가 다르다
+    @Cacheable(key = "#companyName", value = CacheKey.KEY_FINANCE) // 메소드 파라미터 / 레디스 서버의 key value와는 의미가 다르다
     public ScrapedResult getDividendByCompanyName(String companyName) {
         // 1. 회사명을 기준으로 회사 정보를 조회
         log.info("searchCompany : "+companyName);
