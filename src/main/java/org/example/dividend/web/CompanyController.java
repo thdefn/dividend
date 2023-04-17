@@ -1,10 +1,11 @@
 package org.example.dividend.web;
 
+import lombok.AllArgsConstructor;
+import org.example.dividend.model.Company;
+import org.example.dividend.service.CompanyService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 실제 서비스 구현을 하다보면 몇십개 이상의 api를 뚫어줘야 하는 경우 있음
@@ -12,7 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
  * 한 클래스에 코드를 몰아넣기 보다는 기준을 가지고 코드를 찢어놓자
  */
 @RestController
+@AllArgsConstructor
 public class CompanyController {
+
+    private final CompanyService companyService;
 
     @GetMapping("/company/autocomplete")
     public ResponseEntity<?> autocomplete(){
@@ -25,8 +29,16 @@ public class CompanyController {
     }
 
     @PostMapping("/company")
-    public ResponseEntity<?> addCompany(){
-        return null;
+    public ResponseEntity<?> addCompany(@RequestBody Company request){
+        String ticker = request.getTicker().trim();
+
+        if(ObjectUtils.isEmpty(ticker)){
+            throw new RuntimeException("ticker is empty");
+        }
+
+        Company company = this.companyService.save(ticker);
+
+        return ResponseEntity.ok(company);
     }
 
     @DeleteMapping("/company")
