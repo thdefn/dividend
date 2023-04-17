@@ -16,13 +16,13 @@ public class Auth {
     public static class SignUp {
         private String username;
         private String password;
-        private List<String> roles;
+        private String role;
 
         public MemberEntity toEntity(){
             return MemberEntity.builder()
                     .username(this.username)
                     .password(this.password)
-                    .roles(this.roles)
+                    .role(this.role)
                     .build();
         }
     }

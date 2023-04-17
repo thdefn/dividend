@@ -26,7 +26,7 @@ public class AuthController {
     @PostMapping("/auth/signin")
     public ResponseEntity<?> signin(@RequestBody Auth.SignIn request){
         var member = this.memberService.authenticate(request);
-        var token = this.tokenProvider.generateToken(member.getUsername(), member.getRoles());
+        var token = this.tokenProvider.generateToken(member.getUsername(), member.getRole());
         return ResponseEntity.ok(token);
     }
 }

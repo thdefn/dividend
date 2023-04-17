@@ -7,6 +7,7 @@ import org.example.dividend.service.CompanyService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +32,14 @@ public class CompanyController {
     }
 
     @GetMapping("/company")
+    @PreAuthorize("hasRole('READ')")
     public ResponseEntity<?> searchCompany(final Pageable pageable){
         Page<CompanyEntity> companyEntities = this.companyService.getAllCompany(pageable);
         return ResponseEntity.ok(companyEntities);
     }
 
     @PostMapping("/company")
+    @PreAuthorize("hasRole('WRITE')") // 스프링 시큐리티의 기능 prefix ROLE 을 제외한 부분만 넣어도 된다
     public ResponseEntity<?> addCompany(@RequestBody Company request){
         String ticker = request.getTicker().trim();
 
